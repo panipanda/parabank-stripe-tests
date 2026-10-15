@@ -1,0 +1,18 @@
+# virtual environment
+.venv/
+
+# secrets
+.env
+
+# Python and pytest caches
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# test run reports and artifacts
+allure-results/
+allure-report/
+test-results/
+
+# private working documents (roadmap, test cases, learning log, drafts)
+notes/

@@ -10,7 +10,7 @@ TIMEOUT = 10
 
 @pytest.fixture
 def new_user():
-    """Регистрирует нового клиента ParaBank и возвращает его данные."""
+    """Register a new ParaBank customer and return their data."""
     username = f"qa_{uuid.uuid4().hex[:12]}"
     password = "Passw0rd"
 
@@ -29,20 +29,20 @@ def new_user():
     }
 
     with requests.Session() as session:
-        # GET нужен, чтобы сервер выдал сессионные cookies до отправки формы
+        # GET first so the server issues session cookies before the form is sent
         session.get(f"{SITE_URL}/register.htm", timeout=TIMEOUT)
         response = session.post(f"{SITE_URL}/register.htm", data=form, timeout=TIMEOUT)
-        assert response.status_code == 200, f"Регистрация не удалась: {response.status_code}"
+        assert response.status_code == 200, f"Registration failed: {response.status_code}"
         assert "Your account was created successfully" in response.text, (
-            f"Нет сообщения об успешной регистрации для {username}"
+            f"No success message after registering {username}"
         )
 
-    # ID клиента узнаём через REST-логин, сравнивать будем именно его
+    # Get the customer ID via REST login; tests compare against this value
     login = requests.get(
         f"{BASE_URL}/login/{username}/{password}",
         headers={"Accept": "application/json"},
         timeout=TIMEOUT,
     )
-    assert login.status_code == 200, f"Логин после регистрации: {login.status_code} {login.text}"
+    assert login.status_code == 200, f"Login after registration: {login.status_code} {login.text}"
 
     return {"username": username, "password": password, "customer_id": login.json()["id"]}

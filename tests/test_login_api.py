@@ -14,5 +14,5 @@ def test_login_wrong_password(new_user):
     response = requests.get(f"{BASE_URL}/login/{new_user['username']}/wrongpassword", headers=headers, timeout=10)
     assert response.status_code == 400, f"Expected 400 Invalid username and/or password, got {response.status_code} {response.text}"
     assert "Invalid username and/or password" in response.text, f"Expected error message not found in response: {response.text}"
-    assert new_user["password"] not in response.text, f"Password {new_user['password']} should not be in the error message: {response.text}"
+    assert new_user["password"] not in response.text, f"Password should not be in the error message: {response.text}"
     assert str(new_user["customer_id"]) not in response.text, f"Customer ID {new_user['customer_id']} should not be in the error message: {response.text}"

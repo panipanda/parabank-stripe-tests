@@ -1,8 +1,9 @@
 from decimal import Decimal
 
 import requests
-from conftest import BASE_URL, TIMEOUT
-from helpers import (
+
+from config import BASE_URL, TIMEOUT
+from helpers.api import (
     HEADERS,
     find_missing_account_id,
     get_balance,

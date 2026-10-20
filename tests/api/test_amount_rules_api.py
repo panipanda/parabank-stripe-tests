@@ -2,8 +2,9 @@ from decimal import Decimal
 
 import pytest
 import requests
-from conftest import BASE_URL, TIMEOUT
-from helpers import (
+
+from config import BASE_URL, TIMEOUT
+from helpers.api import (
     HEADERS,
     get_balance,
     get_transactions,

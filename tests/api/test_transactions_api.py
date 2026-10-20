@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from helpers import get_json, get_transactions, new_transactions, post_money
+from helpers.api import get_json, get_transactions, new_transactions, post_money
 
 
 def test_search_transactions_by_amount(new_user):

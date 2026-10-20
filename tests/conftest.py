@@ -3,9 +3,7 @@ import uuid
 import pytest
 import requests
 
-SITE_URL = "https://parabank.parasoft.com/parabank"
-BASE_URL = f"{SITE_URL}/services/bank"
-TIMEOUT = 10
+from config import BASE_URL, SITE_URL, TIMEOUT
 
 
 @pytest.fixture

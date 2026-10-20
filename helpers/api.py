@@ -2,7 +2,8 @@ import random
 from decimal import Decimal
 
 import requests
-from conftest import BASE_URL, TIMEOUT
+
+from config import BASE_URL, TIMEOUT
 
 HEADERS = {"Accept": "application/json"}
 

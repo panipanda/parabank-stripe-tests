@@ -1,8 +1,9 @@
 import re
 import uuid
 
-from conftest import SITE_URL
 from playwright.sync_api import Page, expect
+
+from config import SITE_URL
 
 
 def test_register_and_open_accounts_overview(page: Page):

@@ -25,6 +25,16 @@ Work in progress. Currently implemented:
   - TC-01: registration and opening Accounts Overview
   - TC-17: transfer in the UI, balances checked in the UI and in the API
 
+## Project layout
+
+```
+tests/api/    API tests (ParaBank REST, Stripe)
+tests/ui/     UI tests (Playwright)
+tests/conftest.py   shared fixtures: new_user, account_pair
+helpers/      reusable API helpers used by the tests
+config.py     base URLs and timeout
+```
+
 ## Setup
 
 Python 3.12. On Windows, from the project root:

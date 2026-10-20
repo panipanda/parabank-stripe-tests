@@ -1,8 +1,9 @@
 from decimal import Decimal
 
-from conftest import SITE_URL
-from helpers import get_balance
 from playwright.sync_api import Page, expect
+
+from config import SITE_URL
+from helpers.api import get_balance
 
 
 def money(value):

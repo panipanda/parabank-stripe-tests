@@ -71,3 +71,34 @@ def test_same_idempotency_key_does_not_create_second_payment(stripe_auth):
         f"Expected the second reply to be a replay, got header "
         f"{second.headers.get('Idempotent-Replayed')!r}"
     )
+
+
+def test_partial_refund(stripe_auth):
+    # Stripe 3: a partial refund is recorded on the charge and the payment stays succeeded
+    refund_amount = 500
+    payment = create_payment(stripe_auth, str(uuid.uuid4())).json()
+    assert payment["status"] == "succeeded", f"Payment not ready: status {payment['status']!r}"
+
+    refund = requests.post(
+        f"{STRIPE_URL}/refunds",
+        auth=stripe_auth,
+        data={"payment_intent": payment["id"], "amount": refund_amount},
+        timeout=TIMEOUT,
+    )
+
+    assert refund.status_code == 200, f"Expected status 200, got {refund.status_code}: {refund.text}"
+    assert refund.json()["amount"] == refund_amount, (
+        f"Expected refund amount {refund_amount}, got {refund.json()['amount']}"
+    )
+    after = requests.get(
+        f"{STRIPE_URL}/payment_intents/{payment['id']}",
+        auth=stripe_auth,
+        params={"expand[]": "latest_charge"},
+        timeout=TIMEOUT,
+    ).json()
+    charge = after["latest_charge"]
+    assert charge["amount_refunded"] == refund_amount, (
+        f"Expected amount_refunded {refund_amount}, got {charge['amount_refunded']}"
+    )
+    assert charge["refunded"] is False, "Expected the charge to be refunded only partially"
+    assert after["status"] == "succeeded", f"Expected status 'succeeded', got {after['status']!r}"

@@ -23,6 +23,7 @@ Work in progress. Currently implemented:
   - partial refund is recorded on the charge
 - UI tests (`tests/ui/`, Playwright):
   - TC-01: registration and opening Accounts Overview
+  - TC-17: transfer in the UI, balances checked in the UI and in the API
 
 ## Setup
 

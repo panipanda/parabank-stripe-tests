@@ -1,6 +1,6 @@
 # QA bank and payments tests
 
-A small demo project for practising test automation with Python, pytest and Playwright.
+Demo project for test automation with Python, pytest and Playwright.
 
 The system under test is [ParaBank](https://parabank.parasoft.com/parabank), a public demo bank. Payments are covered with the [Stripe](https://docs.stripe.com/api) API in test mode.
 

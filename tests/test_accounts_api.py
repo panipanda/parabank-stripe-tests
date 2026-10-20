@@ -1,7 +1,7 @@
-from decimal import InvalidOperation, Decimal
-import requests
-import pytest
+from decimal import Decimal, InvalidOperation
 
+import pytest
+import requests
 from helpers import find_missing_account_id, get_json
 
 BASE_URL = "https://parabank.parasoft.com/parabank/services/bank"

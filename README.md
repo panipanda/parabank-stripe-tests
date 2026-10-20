@@ -9,7 +9,15 @@ The system under test is [ParaBank](https://parabank.parasoft.com/parabank), a p
 Work in progress. Currently implemented:
 
 - `new_user` fixture: registers a fresh customer for every test
-- TC-02: API login test (status 200 and exact customer ID)
+- `account_pair` fixture: two different accounts (checking and savings) of a new customer
+- API tests (`tests/`):
+  - TC-02, TC-03: login with valid and wrong credentials
+  - TC-06, TC-07, TC-08: account list, savings account creation, missing account
+  - TC-09, TC-14: transfer between own accounts, transfer to a missing account
+  - TC-18: deposit updates balance and history
+  - TC-20: search transactions by amount
+- UI tests (`tests/ui/`, Playwright):
+  - TC-01: registration and opening Accounts Overview
 
 ## Setup
 

@@ -1,7 +1,6 @@
 from decimal import Decimal
 
 import requests
-
 from conftest import BASE_URL, TIMEOUT
 from helpers import (
     HEADERS,

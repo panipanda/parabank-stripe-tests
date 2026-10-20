@@ -16,6 +16,7 @@ Work in progress. Currently implemented:
   - TC-09, TC-14: transfer between own accounts, transfer to a missing account
   - TC-18: deposit updates balance and history
   - TC-20: search transactions by amount
+  - TC-11, TC-12, TC-13, TC-15, TC-16, TC-19: amount rules for transfers and deposits (TC-12 and TC-19 are marked xfail)
 - UI tests (`tests/ui/`, Playwright):
   - TC-01: registration and opening Accounts Overview
 

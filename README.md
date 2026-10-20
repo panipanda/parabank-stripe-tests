@@ -10,14 +10,14 @@ Work in progress. Currently implemented:
 
 - `new_user` fixture: registers a fresh customer for every test
 - `account_pair` fixture: two different accounts (checking and savings) of a new customer
-- API tests (`tests/`):
+- API tests (`tests/api/`):
   - TC-02, TC-03: login with valid and wrong credentials
   - TC-06, TC-07, TC-08: account list, savings account creation, missing account
   - TC-09, TC-14: transfer between own accounts, transfer to a missing account
   - TC-18: deposit updates balance and history
   - TC-20: search transactions by amount
   - TC-11, TC-12, TC-13, TC-15, TC-16, TC-19: amount rules for transfers and deposits (TC-12 and TC-19 are marked xfail)
-- Stripe API tests (`tests/test_stripe_api.py`, test mode only):
+- Stripe API tests (`tests/api/test_stripe_api.py`, test mode only):
   - card payment is created and confirmed
   - the same idempotency key does not create a second payment
   - partial refund is recorded on the charge

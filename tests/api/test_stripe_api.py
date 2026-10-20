@@ -6,7 +6,7 @@ import pytest
 import requests
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 STRIPE_URL = "https://api.stripe.com/v1"
 TIMEOUT = 10

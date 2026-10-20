@@ -16,3 +16,6 @@ test-results/
 
 # private working documents (roadmap, test cases, learning log, drafts)
 notes/
+
+# editor settings
+.vscode/

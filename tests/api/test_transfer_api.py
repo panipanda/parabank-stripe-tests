@@ -46,14 +46,18 @@ def test_transfer_between_own_accounts(account_pair):
 
     assert len(new_a) == 1, f"Expected exactly one new transaction on A, got {len(new_a)}"
     assert new_a[0]["type"] == "Debit", f"Expected type='Debit' on A, got {new_a[0]['type']!r}"
-    assert new_a[0]["amount"] == amount, f"Expected amount={amount} on A, got {new_a[0]['amount']!r}"
+    assert new_a[0]["amount"] == amount, (
+        f"Expected amount={amount} on A, got {new_a[0]['amount']!r}"
+    )
     assert new_a[0]["accountId"] == account_a, (
         f"Expected accountId={account_a} on A, got {new_a[0]['accountId']!r}"
     )
 
     assert len(new_b) == 1, f"Expected exactly one new transaction on B, got {len(new_b)}"
     assert new_b[0]["type"] == "Credit", f"Expected type='Credit' on B, got {new_b[0]['type']!r}"
-    assert new_b[0]["amount"] == amount, f"Expected amount={amount} on B, got {new_b[0]['amount']!r}"
+    assert new_b[0]["amount"] == amount, (
+        f"Expected amount={amount} on B, got {new_b[0]['amount']!r}"
+    )
     assert new_b[0]["accountId"] == account_b, (
         f"Expected accountId={account_b} on B, got {new_b[0]['accountId']!r}"
     )

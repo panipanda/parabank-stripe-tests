@@ -3,9 +3,9 @@ from decimal import Decimal, InvalidOperation
 import pytest
 import requests
 
+from config import BASE_URL
 from helpers.api import find_missing_account_id, get_json
 
-BASE_URL = "https://parabank.parasoft.com/parabank/services/bank"
 headers = {"Accept": "application/json"}
 
 
@@ -25,9 +25,7 @@ def test_accounts_list(new_user):
     assert isinstance(accounts, list), (
         f"Expected accounts to be a list, got {type(accounts).__name__}"
     )
-    assert accounts, (
-        f"Expected at least one account for customer {new_user['customer_id']}"
-    )
+    assert accounts, f"Expected at least one account for customer {new_user['customer_id']}"
     account_ids = [account["id"] for account in accounts]
     assert len(account_ids) == len(set(account_ids)), (
         f"Expected unique account IDs, got {account_ids}"

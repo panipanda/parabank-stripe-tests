@@ -47,7 +47,9 @@ def test_payment_is_confirmed(stripe_auth):
         f"Expected status 200, got {response.status_code}: {response.text}"
     )
     payment = response.json()
-    assert payment["status"] == "succeeded", f"Expected status 'succeeded', got {payment['status']!r}"
+    assert payment["status"] == "succeeded", (
+        f"Expected status 'succeeded', got {payment['status']!r}"
+    )
     assert payment["amount"] == AMOUNT, f"Expected amount {AMOUNT}, got {payment['amount']}"
     assert payment["amount_received"] == AMOUNT, (
         f"Expected amount_received {AMOUNT}, got {payment['amount_received']}"
@@ -86,7 +88,9 @@ def test_partial_refund(stripe_auth):
         timeout=TIMEOUT,
     )
 
-    assert refund.status_code == 200, f"Expected status 200, got {refund.status_code}: {refund.text}"
+    assert refund.status_code == 200, (
+        f"Expected status 200, got {refund.status_code}: {refund.text}"
+    )
     assert refund.json()["amount"] == refund_amount, (
         f"Expected refund amount {refund_amount}, got {refund.json()['amount']}"
     )

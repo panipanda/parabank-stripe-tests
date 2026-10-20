@@ -2,7 +2,8 @@ from decimal import Decimal
 
 import requests
 
-BASE_URL = "https://parabank.parasoft.com/parabank/services/bank"
+from config import BASE_URL
+
 headers = {"Accept": "application/json"}
 
 

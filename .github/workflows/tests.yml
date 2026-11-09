@@ -1,15 +1,43 @@
 name: Tests
 
-# Manual run only: the tests call a shared public demo service (ParaBank),
-# so they are not started on every push.
+# Lint and test collection run on every push and pull request.
+# The full suite calls a shared public demo service (ParaBank behind Cloudflare), which
+# rate-limits fast clients such as CI runners (HTTP 429), so it runs only when started by hand.
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Collect tests (no network calls)
+        run: python -m pytest --collect-only -q
+
   tests:
+    # Full run: Actions tab, "Tests", Run workflow
+    if: github.event_name == 'workflow_dispatch'
+    needs: lint
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -24,11 +52,6 @@ jobs:
         run: |
           python -m pip install -r requirements.txt
           python -m playwright install --with-deps chromium
-
-      - name: Lint
-        run: |
-          ruff check .
-          ruff format --check .
 
       - name: Run tests
         env:

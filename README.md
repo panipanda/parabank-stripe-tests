@@ -71,4 +71,9 @@ Copy `.env.example` to `.env` and set `STRIPE_SECRET_KEY` to a test key (`sk_tes
 
 ## GitHub Actions
 
-The workflow `Tests` is started by hand (Actions tab, Run workflow). It runs the whole suite on Python 3.12 with Chromium. To run the Stripe tests there, add a test key as the repository secret `STRIPE_SECRET_KEY`; without it they are skipped.
+The workflow `Tests` has two jobs:
+
+- `lint` runs on every push and pull request: `ruff check`, `ruff format --check` and test collection (no network calls).
+- `tests` runs the whole suite on Python 3.12 with Chromium, only when started by hand (Actions tab, Run workflow).
+
+The full run is manual on purpose: ParaBank sits behind Cloudflare, which rate-limits fast clients, and runs from GitHub runners failed with HTTP 429 after about ten registrations (the same suite passes on a local machine). To run the Stripe tests there, add a test key as the repository secret `STRIPE_SECRET_KEY`; without it they are skipped.

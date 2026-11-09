@@ -26,6 +26,11 @@ def post_money(path, **params):
     return response.text
 
 
+def rest_login(username, password):
+    """Call the REST login and return the raw response (200 for valid credentials, else 400)."""
+    return requests.get(f"{BASE_URL}/login/{username}/{password}", headers=HEADERS, timeout=TIMEOUT)
+
+
 def get_balance(account_id):
     return get_json(f"/accounts/{account_id}")["balance"]
 

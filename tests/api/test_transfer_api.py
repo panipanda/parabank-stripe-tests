@@ -63,6 +63,41 @@ def test_transfer_between_own_accounts(account_pair):
     )
 
 
+def test_transfer_is_reflected_in_history(account_pair):
+    # TC-10: a 100.00 transfer adds exactly one Debit to the history of A and one Credit
+    # to the history of B, each with the right account, amount and description
+    account_a, account_b = account_pair["a"], account_pair["b"]
+    amount = Decimal("100.00")
+    history_a_before = get_transactions(account_a)
+    history_b_before = get_transactions(account_b)
+
+    post_money("/transfer", fromAccountId=account_a, toAccountId=account_b, amount=str(amount))
+
+    new_a = new_transactions(history_a_before, get_transactions(account_a))
+    new_b = new_transactions(history_b_before, get_transactions(account_b))
+
+    assert len(new_a) == 1, f"Expected exactly one new transaction on A, got {new_a}"
+    debit = new_a[0]
+    assert (debit["type"], debit["accountId"], debit["amount"]) == ("Debit", account_a, amount), (
+        f"Expected Debit {amount} on account {account_a}, got {debit}"
+    )
+    assert debit["description"] == "Funds Transfer Sent", (
+        f"Expected description 'Funds Transfer Sent' on A, got {debit['description']!r}"
+    )
+
+    assert len(new_b) == 1, f"Expected exactly one new transaction on B, got {new_b}"
+    credit = new_b[0]
+    assert (credit["type"], credit["accountId"], credit["amount"]) == (
+        "Credit",
+        account_b,
+        amount,
+    ), f"Expected Credit {amount} on account {account_b}, got {credit}"
+    assert credit["description"] == "Funds Transfer Received", (
+        f"Expected description 'Funds Transfer Received' on B, got {credit['description']!r}"
+    )
+    assert debit["id"] != credit["id"], f"Expected different transaction ids, got {debit['id']}"
+
+
 def test_transfer_to_missing_account_is_rejected(account_pair):
     # TC-14: transfer to a confirmed missing account -> 400,
     # balance and transaction ids of A stay unchanged

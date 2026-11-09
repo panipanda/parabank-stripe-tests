@@ -1,34 +1,17 @@
 import re
-import uuid
 
 from playwright.sync_api import Page, expect
 
-from config import SITE_URL
+from helpers.data import new_username, registration_form
+from helpers.ui import submit_registration
 
 
 def test_register_and_open_accounts_overview(page: Page):
     # TC-01: registering with unique data shows the welcome page for this user
     # and the new session can open Accounts Overview with at least one account
-    username = f"qa_{uuid.uuid4().hex[:12]}"
-    fields = {
-        "customer.firstName": "Test",
-        "customer.lastName": "User",
-        "customer.address.street": "1 Test Street",
-        "customer.address.city": "Testville",
-        "customer.address.state": "TS",
-        "customer.address.zipCode": "12345",
-        "customer.phoneNumber": "5550100",
-        "customer.ssn": "123-45-6789",
-        "customer.username": username,
-        "customer.password": "Passw0rd",
-        "repeatedPassword": "Passw0rd",
-    }
+    username = new_username()
 
-    page.goto(f"{SITE_URL}/register.htm")
-    for field_id, value in fields.items():
-        # ids contain dots, so an attribute selector is used instead of "#id"
-        page.locator(f'[id="{field_id}"]').fill(value)
-    page.get_by_role("button", name="Register").click()
+    submit_registration(page, registration_form(username))
 
     right_panel = page.locator("#rightPanel")
     expect(right_panel).to_contain_text(f"Welcome {username}")

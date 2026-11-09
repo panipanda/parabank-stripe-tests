@@ -2,8 +2,8 @@ from decimal import Decimal
 
 from playwright.sync_api import Page, expect
 
-from config import SITE_URL
 from helpers.api import get_balance
+from helpers.ui import log_in
 
 
 def money(value):
@@ -19,10 +19,7 @@ def test_transfer_funds_in_ui(page: Page, new_user, account_pair):
     balance_a_before = get_balance(account_a)
     balance_b_before = get_balance(account_b)
 
-    page.goto(f"{SITE_URL}/index.htm")
-    page.locator('input[name="username"]').fill(new_user["username"])
-    page.locator('input[name="password"]').fill(new_user["password"])
-    page.get_by_role("button", name="Log In").click()
+    log_in(page, new_user["username"], new_user["password"])
     page.get_by_role("link", name="Transfer Funds").click()
 
     page.locator("#amount").fill(str(amount))

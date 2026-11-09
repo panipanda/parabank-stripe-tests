@@ -1,30 +1,16 @@
-import uuid
-
 import pytest
 import requests
 
 from config import BASE_URL, SITE_URL, TIMEOUT
+from helpers.data import PASSWORD, new_username, registration_form
 
 
 @pytest.fixture
 def new_user():
     """Register a new ParaBank customer and return their data."""
-    username = f"qa_{uuid.uuid4().hex[:12]}"
-    password = "Passw0rd"
-
-    form = {
-        "customer.firstName": "Test",
-        "customer.lastName": "User",
-        "customer.address.street": "1 Test Street",
-        "customer.address.city": "Testville",
-        "customer.address.state": "TS",
-        "customer.address.zipCode": "12345",
-        "customer.phoneNumber": "5550100",
-        "customer.ssn": "123-45-6789",
-        "customer.username": username,
-        "customer.password": password,
-        "repeatedPassword": password,
-    }
+    username = new_username()
+    password = PASSWORD
+    form = registration_form(username, password)
 
     with requests.Session() as session:
         # GET first so the server issues session cookies before the form is sent
